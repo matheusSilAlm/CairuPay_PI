@@ -3,7 +3,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package br.com.projetoPI.teals;
+
 import javax.swing.UIManager;
+import br.com.projetoPI.dao.UsuarioDAO;
+import br.com.projetoPI.model.Usuarios;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author teu_s
@@ -14,10 +19,10 @@ public class TelaLogin extends javax.swing.JFrame {
      * Creates new form TelaLogin
      */
     public TelaLogin() {
-        
+
         initComponents();
     }
- 
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -29,10 +34,10 @@ public class TelaLogin extends javax.swing.JFrame {
 
         jpFundo = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        jTextUser = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jPasswordField1 = new javax.swing.JPasswordField();
+        jTextPassword = new javax.swing.JPasswordField();
         jButton1 = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel4 = new javax.swing.JLabel();
@@ -75,8 +80,8 @@ public class TelaLogin extends javax.swing.JFrame {
                         .addComponent(jLabel2)
                         .addComponent(jLabel3)
                         .addComponent(jSeparator1)
-                        .addComponent(jTextField1)
-                        .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jTextUser)
+                        .addComponent(jTextPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jpFundoLayout.createSequentialGroup()
                         .addGap(96, 96, 96)
                         .addComponent(jLabel1))
@@ -99,11 +104,11 @@ public class TelaLogin extends javax.swing.JFrame {
                 .addGap(31, 31, 31)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(38, 38, 38)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(31, 31, 31)
                 .addComponent(jButton1)
                 .addGap(18, 18, 18)
@@ -124,13 +129,36 @@ public class TelaLogin extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    
-    private void centralizarJanela(){
+
+    private void centralizarJanela() {
         setLocationRelativeTo(null);
     }
-    
+
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        String login = jTextUser.getText();
+        String senha = new String(jTextPassword.getPassword());
+
+        if (login.trim().isEmpty() || senha.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Preencha os campos", "Campos Vazios", JOptionPane.WARNING_MESSAGE);
+
+            return;
+        }
+
+        UsuarioDAO usuarioDAO = new UsuarioDAO();
+        Usuarios usuarioBanco = usuarioDAO.getUsuarioPorLogin(login);
+        if (usuarioBanco == null) {
+            JOptionPane.showMessageDialog(this, "Usuario nao encontrado", "Erro no Login", JOptionPane.ERROR_MESSAGE);
+        } else {
+            if (senha.equals(usuarioBanco.getSenhaHash())) {
+                JOptionPane.showMessageDialog(this, "Login Realizado com Sucesso, " + usuarioBanco.getNome(), "LOGIN OK!", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this,
+                        "Senha incorreta.",
+                        "Erro de Login",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
@@ -179,9 +207,9 @@ public class TelaLogin extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JPasswordField jTextPassword;
+    private javax.swing.JTextField jTextUser;
     private javax.swing.JPanel jpFundo;
     // End of variables declaration//GEN-END:variables
 }
