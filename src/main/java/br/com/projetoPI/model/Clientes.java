@@ -17,6 +17,9 @@ public class Clientes {
     private String telefone;
     private String email;
 
+    public Clientes() {
+    }
+    
     public Clientes(int idCliente, String nomeCliente, String documento, String endereco, String uf, String telefone, String email) {
         this.idCliente = idCliente;
         this.nomeCliente = nomeCliente;

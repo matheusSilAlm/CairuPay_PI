@@ -17,6 +17,12 @@ public class Dividas {
     private Clientes devedor;  // Chave estrangeira para o Cliente
     private BigDecimal valorDivida;
     private Date dataAtualizacao; // Correspondente a DATE no SQL
+    
+    
+    public Dividas() {
+        
+    }
+    
 
     public Dividas(int idDivida, Clientes credor, Clientes devedor, BigDecimal valorDivida, Date dataAtualizacao) {
         this.idDivida = idDivida;
@@ -25,7 +31,7 @@ public class Dividas {
         this.valorDivida = valorDivida;
         this.dataAtualizacao = dataAtualizacao;
     }
-
+    
     public int getIdDivida() {
         return idDivida;
     }

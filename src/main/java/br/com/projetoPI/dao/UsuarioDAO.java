@@ -29,8 +29,7 @@ public class UsuarioDAO {
         String sql = "SELECT * FROM usuarios WHERE login = ?";
         Usuarios usuarioEncontrado = null;
         
-        // O "try-with-resources" garante que a conexão (conn) e 
-        // o PreparedStatement (ps) serão fechados automaticamente.
+
         try (Connection conn = DbConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             
@@ -38,16 +37,11 @@ public class UsuarioDAO {
             
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
-                    // Se encontrou, preenche o objeto Usuario
                     usuarioEncontrado = new Usuarios();
                     usuarioEncontrado.setIdUsuario(rs.getInt("id_usuario"));
                     usuarioEncontrado.setNome(rs.getString("nome"));
                     usuarioEncontrado.setCargo(rs.getString("cargo"));
                     usuarioEncontrado.setLogin(rs.getString("login"));
-                    
-                    // Atenção aqui: o requisito pedia "Senha"
-                    // O seu banco tem "senha_hash"
-                    // Estamos pegando o HASH do banco e colocando no atributo "senha" do model.
                     usuarioEncontrado.setSenhaHash(rs.getString("senha_hash")); 
                     
                     usuarioEncontrado.setEmail(rs.getString("email"));

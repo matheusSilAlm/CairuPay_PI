@@ -17,6 +17,9 @@ public class Pagamentos {
     private Date dataPagamento;
     private BigDecimal valorPago;
 
+    public Pagamentos() {
+    }
+    
     public Pagamentos(int idPagamento, Dividas divida, Date dataPagamento, BigDecimal valorPago) {
         this.idPagamento = idPagamento;
         this.divida = divida;
